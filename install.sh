@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_RAW="https://raw.githubusercontent.com/YOURUSER/YOURREPO/main"
+REPO_RAW="https://raw.githubusercontent.com/m0nkeydbus/give-me-the-server-blood-pls/refs/heads/main"
 
 BIN_DIR="$HOME/.local/bin"
 CONF_DIR="$HOME/.config/give-me-the-server-blood"

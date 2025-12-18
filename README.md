@@ -37,7 +37,7 @@ export HTB_TOKEN="your_api_token_here"
 ## Install
 
 ```sh
-curl -fsSL https://example.com/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/m0nkeydbus/give-me-the-server-blood-pls/refs/heads/main/install.sh | bash
 ```
 
 ## Usage
