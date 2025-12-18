@@ -9,10 +9,6 @@ import subprocess
 from pathlib import Path
 from hackthebox import HTBClient
 
-# ------------------------------------------------------------------
-# Config
-# ------------------------------------------------------------------
-
 TOKEN = os.getenv("HTB_TOKEN")
 if not TOKEN:
     print("[-] HTB_TOKEN not set in environment")
@@ -22,10 +18,6 @@ DOWNLOADS = Path.home() / "Downloads"
 DOWNLOADS.mkdir(exist_ok=True)
 
 client = HTBClient(token=TOKEN)
-
-# ------------------------------------------------------------------
-# Helpers
-# ------------------------------------------------------------------
 
 def wait_until_release(release_iso: str | None):
     if not release_iso:
@@ -47,7 +39,6 @@ def get_box_profile(name: str):
 
 def get_arena_server_id() -> int:
     servers = client.connections.servers(product="competitive")
-    # Adjust depending on HTBClient return type
     eu = servers.data["options"]["EU"] if hasattr(servers, "data") else servers["data"]["options"]["EU"]
 
     if "EU - Release Arena" in eu and eu["EU - Release Arena"]["servers"]:
@@ -74,7 +65,6 @@ def download_tcp_vpn(server_id: int | None) -> Path:
     vpn_data = client.vpn.download(server_id=server_id, protocol="tcp")
 
     vpn_path = DOWNLOADS / "htb_tcp.ovpn"
-    # Write as bytes if needed
     if isinstance(vpn_data, str):
         vpn_path.write_text(vpn_data)
     else:
@@ -111,14 +101,10 @@ def start_exegol(vpn_path: Path, box):
     print(" ".join(cmd))
     subprocess.run(cmd)
 
-# ------------------------------------------------------------------
-# Main
-# ------------------------------------------------------------------
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--box", required=True)
-    parser.add_argument("--chall")  # preserved
+    parser.add_argument("--chall")
     parser.add_argument("--exegol", action="store_true")
     parser.add_argument("--ovpn", action="store_true")
     args = parser.parse_args()
