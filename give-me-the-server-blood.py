@@ -8,14 +8,29 @@ import datetime
 import subprocess
 from pathlib import Path
 from hackthebox import HTBClient
+import tomllib
 
-TOKEN = os.getenv("HTB_TOKEN")
+CONFIG_PATH = Path.home() / ".config" / "give-me-the-server-blood" / "config.toml"
+
+def load_config():
+    if not CONFIG_PATH.exists():
+        print(f"[-] Config file not found at {CONFIG_PATH}")
+        sys.exit(1)
+    with open(CONFIG_PATH, "rb") as f:
+        return tomllib.load(f)
+
+config = load_config()
+
+TOKEN = config.get("general", {}).get("htb_token")
 if not TOKEN:
-    print("[-] HTB_TOKEN not set in environment")
+    print("[-] HTB token not found in config under [general].htb_token")
     sys.exit(1)
 
-DOWNLOADS = Path.home() / "Downloads"
+DOWNLOADS = Path(os.path.expanduser(config.get("general", {}).get("downloads_dir", "~/Downloads")))
 DOWNLOADS.mkdir(exist_ok=True)
+
+EXEGOL_BIN = os.path.expanduser(config.get("paths", {}).get("exegol", "~/.local/bin/exegol"))
+VPN_PROTOCOL = config.get("general", {}).get("vpn_protocol", "tcp")
 
 client = HTBClient(token=TOKEN)
 
@@ -62,9 +77,9 @@ def spawn_box(machine):
 
 def download_tcp_vpn(server_id: int | None) -> Path:
     server_id = server_id or 0
-    vpn_data = client.vpn.download(server_id=server_id, protocol="tcp")
+    vpn_data = client.vpn.download(server_id=server_id, protocol=VPN_PROTOCOL)
 
-    vpn_path = DOWNLOADS / "htb_tcp.ovpn"
+    vpn_path = DOWNLOADS / f"htb_{VPN_PROTOCOL}.ovpn"
     if isinstance(vpn_data, str):
         vpn_path.write_text(vpn_data)
     else:
@@ -87,16 +102,14 @@ def start_openvpn(vpn_path: Path):
     )
 
 def start_exegol(vpn_path: Path, box):
-    exegol_bin = os.path.expanduser("~/.local/bin/exegol")
     cmd = [
         "sudo", "-E",
-        exegol_bin,
+        EXEGOL_BIN,
         "start",
         box.name,
         "--vpn", str(vpn_path),
         "-V", f"{DOWNLOADS}:/Downloads",
     ]
-
     print("[i] Launching Exegol:")
     print(" ".join(cmd))
     subprocess.run(cmd)
