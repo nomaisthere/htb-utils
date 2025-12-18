@@ -23,9 +23,11 @@ if [[ ! -f "$CONF_DIR/config.toml" ]]; then
   echo "[*] Installing default config..."
   curl -fsSL "$REPO_RAW/example_cnf.toml" \
     -o "$CONF_DIR/config.toml"
+  chmod 600 "$CONF_DIR/config.toml"
 else
   echo "[i] Config already exists, skipping"
 fi
+c
 
 echo
 echo "[+] Installation complete!"
