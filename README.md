@@ -34,6 +34,12 @@ export HTB_TOKEN="your_api_token_here"
 - openvpn installed if using --ovpn.
 - exegol installed locally if using --exegol.
 
+## Install
+
+```sh
+curl -fsSL https://example.com/install.sh | bash
+```
+
 ## Usage
 
 ```sh
