@@ -2,10 +2,6 @@
 add_hosts = true
 vpn_protocol = "tcp"
 downloads_dir = "~/Downloads"
-htb_token = 
 
 [paths]
 exegol = "~/.local/bin/exegol"
-
-[commands]
-auto-recon = true

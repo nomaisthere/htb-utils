@@ -1,6 +1,6 @@
-# give me the server blood pls
+# HTB Utils
 
-This script automates spawning Hack The Box (HTB) machines, downloading the VPN profile, and optionally launching Exegol for lab interaction. It uses the official [`hackthebox`](https://pypi.org/project/hackthebox/) Python client (`HTBClient`) instead of raw API calls, making the code cleaner and more maintainable.
+This tool automates spawning Hack The Box (HTB) machines, downloading the VPN profile, and optionally launching Exegol for lab interaction. It also, as its main feature, allows to submit flags. The goal is for regulars to gain time and solve easily. The project is strongly inspired from the previous needs of htb-cli.
 
 ---
 
@@ -19,11 +19,6 @@ This script automates spawning Hack The Box (HTB) machines, downloading the VPN 
 ## Requirements
 
 - Python 3.10+
-- `hackthebox` Python package:  
-
-```sh
-pip install hackthebox
-```
 
 - HTB API token stored in the environment:
 
