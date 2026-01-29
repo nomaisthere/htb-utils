@@ -1,17 +1,13 @@
 from api.active import get_active_machine, NoActiveMachine
 
 def status_cmd(parser):
-    parser.set_defaults(func=run)
+    parser.set_defaults(func=status)
 
-def run(args):
+def status(args):
     try:
         m = get_active_machine()
     except NoActiveMachine:
-        print("[-] No active machine")
+        eprint("[-] No active machine")
         return
-
-    print("[+] Active machine")
-    print(f"    Name: {m['name']}")
-    print(f"    IP:   {m['ip']}")
-    print(f"    Type: {m['type']}")
-    print(f"{m}")
+    print("[+] Active machine:", m["name"])
+    print("[+] IP:", m["ip"] or "spawning")

@@ -1,19 +1,18 @@
-import sys
 from api.submit import submit_flag, SubmitError
 
 def submit_cmd(parser):
     parser.add_argument("flag", help="Flag to submit")
-    parser.set_defaults(func=run)
+    parser.set_defaults(func=submit)
 
-def run(args):
+def submit(args):
     try:
         result = submit_flag(args.flag)
     except SubmitError as e:
-        print("[-]", e)
-        sys.exit(1)
+        print("[-]", (str(e)))
+        return
 
-    msg = result["response"].get("message", "Unknown response")
+    msg = result["response"].get("message", "OK")
     machine = result["machine"]
-
-    print(f"    {msg}")
-    print(f"    Machine: {machine['name']} ({machine['ip']})")
+    print(msg)
+    print("[+] Machine: ", machine["name"])
+    print("[+] IP: ", machine["ip"])

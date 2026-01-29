@@ -1,75 +1,83 @@
 # HTB Utils
 
-This tool automates spawning Hack The Box (HTB) machines, downloading the VPN profile, and optionally launching Exegol for lab interaction. It also, as its main feature, allows to submit flags. The goal is for regulars to gain time and solve easily. The project is strongly inspired from the previous needs of htb-cli.
+HTB Utils is a fast CLI tool to interact with the Hack The Box API.
+Its primary goal is to **save time** for regular HTB users by automating
+machine management and **instant flag submission**.
+
+The tool is designed to be lightweight, scriptable, and competitive.
 
 ---
 
 ## Features
 
-- Fetch HTB machine profile by name.
-- Wait until the box release time if not yet available.
-- Automatically select an arena server (Release Arena preferred, fallback to Free server).
-- Spawn a machine if not already spawned.
-- Download the TCP VPN profile for the selected server.
-- Start OpenVPN to connect to the HTB lab.
-- Optionally start Exegol with the machine and VPN setup.
+- Spawn HTB machines by name
+- Terminate active machines
+- Display active machine status (name, IP, type)
+- Submit flags directly to HTB
+- Automatic detection of active machine
+- Zero configuration after install
+- Optimized for fast flag submission
 
 ---
 
 ## Requirements
 
-- Python 3.10+
+- Python **3.10+**
+- HTB API token (environment variable)
+- `requests` Python package
 
-- HTB API token stored in the environment:
+Optional:
+- `openvpn` (if you manage VPN manually)
+- `exegol` (if you integrate it later)
 
-```sh
-export HTB_TOKEN="your_api_token_here"
+---
+
+## Installation
+
+```bash
+git clone https://github.com/m0nkeydbus/htb-utils
+cd htb-utils
+pip install -r requirements.txt
+chmod +x htb-utils
 ```
 
-- openvpn installed if using --ovpn.
-- exegol installed locally if using --exegol.
+## HTB API Token Setup (Permanent)
 
-## Install
+```bash
+echo 'export HTB_TOKEN="your_api_token_here"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+```zsh
+echo 'export HTB_TOKEN="your_api_token_here"' >> ~/.zshrc
+source ~/.zshrc
+```
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/m0nkeydbus/give-me-the-server-blood-pls/refs/heads/main/install.sh | bash
+echo $HTB_TOKEN
 ```
 
 ## Usage
 
-```sh
-give-me-the-server-blood.py --box <box_name> [--ovpn] [--exegol]
+```bash
+htb-utils up <box_name>
+htb-utils down
+htb-utils status
+htb-utils submit <flag>
 ```
 
-## Options
+## Speed Aliases (Recommended)
 
-- --box <box_name>: Required. The name of the HTB machine to spawn.
-- --ovpn: Optional. Start OpenVPN automatically with the downloaded profile.
-- --exegol: Optional. Launch Exegol to interact with the box.
-- --chall: Placeholder for challenges (future support).
-
-## Example
-
-```sh
-give-me-the-server-blood.py --box "Hercules" --ovpn --exegol
+```bash
+alias htb=~/htb-utils/htb-utils
+alias f='htb submit'
 ```
 
-This will:
+Now submit flags instantly:
 
-Check if Hercules is released.
+`f HTB{f4ke_fl4g}`
 
-Spawn it if not already running.
+## Contributors
 
-Download the TCP VPN file.
-
-Start OpenVPN.
-
-Launch Exegol for lab interaction.
-
-## Notes
-
-The script automatically waits until the box release time.
-
-VPN is saved in ~/Downloads/htb_tcp.ovpn.
-
-The script will ask you for sudo privileges for OpenVPN and Exegol.
+- Thanks to qu35t, having done the first version of htb-cli, this project is inspired from his idea.
+- Big thanks to hunntr, for his ideas on how to upgrade the project.

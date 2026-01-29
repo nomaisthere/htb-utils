@@ -12,15 +12,10 @@ def submit_flag(flag: str) -> dict:
 
     payload = {
         "id": machine["id"],
-        "flag": flag
+        "flag": flag,
     }
     response = post("/machine/own", json=payload, api_version="v5")
-
     return {
-        "machine": {
-            "id": machine["id"],
-            "name": machine["name"],
-            "ip": machine["ip"],
-        },
-        "response": response
+        "machine": machine,
+        "response": response,
     }
