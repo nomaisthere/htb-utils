@@ -8,5 +8,4 @@ def get_active_machine() -> dict:
     info = data.get("info")
     if not info:
         raise NoActiveMachine("No active machine found")
-
     return info

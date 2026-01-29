@@ -1,21 +1,30 @@
 #!/usr/bin/env python3
 
 import argparse
-from cli.box import box_cmd
-from cli.submit import submit_cmd
-from cli.status import status_cmd
 
 def main():
-    parser = argparse.ArgumentParser(prog="htb", description="htb utils as cli")
-    sub = parser.add_subparsers(dest="command", required=True)
-    box_parser = sub.add_parser("box", help="Spawn and prepare a box")
-    box_cmd(box_parser)
-    submit_parser = sub.add_parser("submit", help="Submit a flag")
-    submit_cmd(submit_parser)
-    status_parser = sub.add_parser("status", help="Show active machine")
-    status_cmd(status_parser)
+    parser = argparse.ArgumentParser(prog="htb")
+    sub = parser.add_subparsers(dest="cmd", required=True)
+    up = sub.add_parser("up")
+    up.add_argument("box")
+    down = sub.add_parser("down")
+    submit = sub.add_parser("submit")
+    submit.add_argument("flag")
+    status = sub.add_parser("status")
     args = parser.parse_args()
-    args.func(args)
+
+    if args.cmd == "up":
+        from cli.box import box_up
+        box_up(args.box)
+    elif args.cmd == "down":
+        from cli.box import box_down
+        box_down()
+    elif args.cmd == "submit":
+        from cli.submit import submit
+        submit(args.flag)
+    elif args.cmd == "status":
+        from cli.status import status
+        status()
 
 if __name__ == "__main__":
     main()
