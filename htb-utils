@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+#
+# HTB-Utils
+#
+# Tool for hackthebox, to submit flags faster or spawn boxes
+# cli-based
+#
+# Made by nomaisthere
+
+
 import sys
 from cli.main import main
 
