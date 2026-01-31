@@ -7,7 +7,7 @@ def status(args):
     try:
         m = get_active_machine()
     except NoActiveMachine:
-        eprint("[-] No active machine")
+        print("[-] No active machine")
         return
     print("[+] Active machine:", m["name"])
     print("[+] IP:", m["ip"] or "spawning")
